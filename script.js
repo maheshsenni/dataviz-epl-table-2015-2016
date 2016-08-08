@@ -38,7 +38,7 @@ function drawChart(data, width, height) {
     .y(function(d) { return y(d.position); });
 
   var trans = d3.transition()
-    .duration(750);
+    .duration(1000);
 
   var nestData = d3.nest()
     .key(function(d) { return d.team; })
@@ -57,7 +57,10 @@ function drawChart(data, width, height) {
       .transition(trans)
       .style('opacity', brightOpacity);
     chart.selectAll('.position-line').remove();
-    chart.selectAll('.result-indicator').remove();
+    chart.selectAll('.result-indicator')
+      .transition(trans)
+      .attr('r', 0)
+      .remove();
 
     if (activeTeam) {
       var teamNest = nestData.filter(function(d) { return d.key === activeTeam })[0];
@@ -102,6 +105,7 @@ function drawChart(data, width, height) {
         })
         .attr('cx', function(d) { return x(d.week); })
         .attr('cy', function(d) { return y(d.position); })
+        .transition(trans)
         .attr('r', 8);
       // home or away
       resultIndicators.append('text')
