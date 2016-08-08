@@ -38,7 +38,7 @@ function drawChart(data, width, height) {
     .y(function(d) { return y(d.position); });
 
   var trans = d3.transition()
-    .duration(1000);
+    .duration(1500);
 
   var nestData = d3.nest()
     .key(function(d) { return d.team; })
@@ -56,11 +56,17 @@ function drawChart(data, width, height) {
     chart.selectAll('.team-image')
       .transition(trans)
       .style('opacity', brightOpacity);
-    chart.selectAll('.position-line').remove();
     chart.selectAll('.result-indicator')
       .transition(trans)
       .attr('r', 0)
       .remove();
+
+    if (!activeTeam) {
+      chart.selectAll('.position-line')
+        .transition(trans)
+        .style('opacity', 0)
+        .remove();
+    }
 
     if (activeTeam) {
       var teamNest = nestData.filter(function(d) { return d.key === activeTeam })[0];
@@ -78,9 +84,14 @@ function drawChart(data, width, height) {
             return 1;
           }
         });
+
+      var pl = chart.select('.position-line');
+      if (chart.select('.position-line').size() < 1) {
+        pl = chart.append('path')
+          .attr('class', 'position-line');
+      }
       // draw position line
-      chart.append('path')
-        .attr('class', 'position-line')
+      pl.transition(trans)
         .attr('stroke', function(d) {
           return colorsAndImages[activeTeam].color;
         })
