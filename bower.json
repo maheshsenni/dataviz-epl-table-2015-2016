@@ -1,0 +1,22 @@
+{
+  "name": "201608-2015-2016-epl-table",
+  "authors": [
+    "Mahesh <mahesh.h4evr@gmail.com>"
+  ],
+  "description": "A visualization demonstrating how the premier league table changed week by week",
+  "main": "index.html",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "d3": "^4.2.1"
+  }
+}

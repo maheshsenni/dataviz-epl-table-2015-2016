@@ -1,0 +1,38 @@
+#chart {
+  width: 90%;
+  min-width: 1000px;
+  height: 700px;
+  border: 1px solid grey;
+  margin: 0 auto;
+}
+
+text {
+  text-anchor: middle;
+}
+
+.team-image {
+  opacity: 0.5;
+}
+
+.position-line { 
+  stroke-width: 1;
+  fill: none;
+}
+
+.win {
+  fill: green;
+}
+.loss {
+  fill: red;
+}
+.draw {
+  fill: grey;
+}
+.home-away-text {
+  fill: white;
+  font-size: 0.5em;
+}
+
+.dull {
+  opacity: 0.25;
+}
