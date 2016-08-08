@@ -1,6 +1,7 @@
 function drawChart(data, width, height) {
   var activeTeam;
-  var dullOpacity = 0.25;
+  var dullOpacity = 0.1;
+  var brightOpacity = 0.5;
 
   var margin = {
     top: 50,
@@ -50,7 +51,7 @@ function drawChart(data, width, height) {
   function update() {
     chart.selectAll('.team-image')
       .transition(trans)
-      .style('opacity', 0.75);
+      .style('opacity', brightOpacity);
     chart.selectAll('.position-line').remove();
     chart.selectAll('.result-indicator').remove();
     
