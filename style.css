@@ -6,7 +6,10 @@
   margin: 0 auto;
 }
 
-text {
+.x-axis line, .x-axis path {
+  stroke: #fff;
+}
+.x-axis text {
   text-anchor: middle;
 }
 
@@ -14,7 +17,7 @@ text {
   opacity: 0.5;
 }
 
-.position-line { 
+.position-line {
   stroke-width: 1;
   fill: none;
 }
@@ -31,6 +34,7 @@ text {
 .home-away-text {
   fill: white;
   font-size: 0.5em;
+  text-anchor: middle;
 }
 
 .dull {

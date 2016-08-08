@@ -16,7 +16,7 @@ function drawChart(data, width, height) {
 
   var weeks = d3.map(data, function(d) { return d.week; }).keys().map(function(d) { return Number(d); });
   var teams = d3.map(data, function(d) { return d.team; });
-  
+
   // week
   var x = d3.scaleLinear()
     .range([margin.left, width - margin.right])
@@ -29,6 +29,7 @@ function drawChart(data, width, height) {
 
   var xAxis = d3.axisTop()
     .ticks(weeks.length/2)
+    .tickFormat(function(d) { return 'W ' + d })
     .scale(x);
 
   var positionLine = d3.line()
@@ -45,8 +46,11 @@ function drawChart(data, width, height) {
 
   chart.append('g')
     .attr('class', 'axis x-axis')
-    .attr('transform', 'translate(0,' + margin.top/2 + ')')
-    .call(xAxis);
+    .attr('transform', 'translate(0,' + ((margin.top/2) - 5) + ')')
+    .call(xAxis)
+    .selectAll('text')
+    .attr('dy', '1.2em')
+    .attr('transform', 'rotate(-90)');
 
   function update() {
     chart.selectAll('.team-image')
@@ -54,7 +58,7 @@ function drawChart(data, width, height) {
       .style('opacity', brightOpacity);
     chart.selectAll('.position-line').remove();
     chart.selectAll('.result-indicator').remove();
-    
+
     if (activeTeam) {
       var teamNest = nestData.filter(function(d) { return d.key === activeTeam })[0];
       var weeklyOpponents = teamNest.values.map(function(d) { return d.opponent; });
