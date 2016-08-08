@@ -140,7 +140,7 @@ function drawChart(data, width, height) {
     .enter()
     .append('image')
     .attr('class', 'team-intial')
-    .attr('x', 20)
+    .attr('x', -10)
     .attr('y', function(d, i) { return y(i + 1); })
     .attr('transform', 'translate(-8, -8)')
     .attr('width', 16)
@@ -155,20 +155,24 @@ function drawChart(data, width, height) {
         activeTeam = d;
       }
       update();
-    });
+    })
+    .transition(trans)
+    .attr('x', 20);
   chart.selectAll('.team-final')
     .data(finalTeamPositions)
     .enter()
     .append('image')
     .attr('class', 'team-final')
-    .attr('x', width - 20)
+    .attr('x', width + 10)
     .attr('y', function(d) { return y(d.position); })
     .attr('transform', 'translate(-8, -8)')
     .attr('width', 16)
     .attr('height', 16)
     .attr('xlink:href', function(d) {
       return colorsAndImages[d.team].icon;
-    });
+    })
+    .transition(trans)
+    .attr('x', width - 20);
 }
 
 window.addEventListener('load', function() {
