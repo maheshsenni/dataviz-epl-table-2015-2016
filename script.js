@@ -1,7 +1,7 @@
 function drawChart(data, width, height) {
   var activeTeam;
   var dullOpacity = 0.1;
-  var brightOpacity = 0.5;
+  var brightOpacity = 0.3;
   var transitionDuration = 1000;
 
   var margin = {
@@ -62,6 +62,63 @@ function drawChart(data, width, height) {
     .transition()
     .duration(transitionDuration)
     .call(yAxis);
+
+  function showTooltip(d) {
+    var tooltipWidth = d.opponent.length * 7;
+    var tooltip = chart.append('g')
+      .attr('class', 'tooltip');
+    var tooltipRect = tooltip.append('rect')
+      .attr('width', 0)
+      .attr('height', 40)
+      .attr('fill', 'black')
+      .attr('rx', 3)
+      .attr('ry', 3)
+      .style('opacity', 0)
+      .attr('x', x(d.week))
+      .attr('y', y(d.position) - 30)
+      .transition()
+      .duration(transitionDuration/2)
+      .style('opacity', 0.5)
+      .attr('width', tooltipWidth)
+      .attr('y', y(d.position) - 60);
+    var tooltipTeam = tooltip.append('text')
+      .attr('fill', 'white')
+      .style('opacity', 0)
+      .attr('x', x(d.week) + 5)
+      .attr('y', y(d.position) - 20)
+      .transition()
+      .duration(transitionDuration/2)
+      .style('opacity', 1)
+      .attr('y', y(d.position) - 42)
+      .text(d.opponent);
+    var tooltipScore = tooltip.append('text')
+      .attr('fill', 'white')
+      .style('opacity', 0)
+      .attr('x', x(d.week) + 5)
+      .attr('y', y(d.position) - 10)
+      .transition()
+      .duration(transitionDuration/2)
+      .style('opacity', 1)
+      .attr('y', y(d.position) - 28)
+      .text(d.home ? d.goalsFor + ' - ' + d.goalsAgainst : d.goalsAgainst + ' - ' + d.goalsFor);
+  }
+
+  function hideTooltip(d) {
+    chart.selectAll('.tooltip text')
+      .transition()
+      .duration(transitionDuration/2)
+      .style('opacity', 0);
+    chart.selectAll('.tooltip rect')
+      .transition()
+      .duration(transitionDuration/2)
+      .style('opacity', 0)
+      .attr('y', function() {
+        return +d3.select(this).attr('y') + 40;
+      })
+      .attr('width', 0)
+      .attr('height', 0);
+    chart.select('.tooltip').transition().delay(transitionDuration/2).remove();
+  }
 
   function update() {
     chart.selectAll('.team-image')
@@ -140,6 +197,12 @@ function drawChart(data, width, height) {
         })
         .attr('cx', function(d) { return x(d.week); })
         .attr('cy', function(d) { return y(d.position); })
+        .on('mouseover', function(d) {
+          showTooltip(d);
+        })
+        .on('mouseout', function(d) {
+          hideTooltip(d);
+        })
         .transition()
         .duration(transitionDuration)
         .attr('r', 8);

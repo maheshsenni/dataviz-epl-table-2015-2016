@@ -1,9 +1,12 @@
-#chart {
+.container {
+  margin: 0 auto;
   width: 90%;
+}
+
+#chart {
+  width: 100%;
   min-width: 1000px;
   height: 700px;
-  border: 1px solid grey;
-  margin: 0 auto;
 }
 
 .axis line, .axis path {
@@ -41,6 +44,12 @@
   fill: white;
   font-size: 0.5em;
   text-anchor: middle;
+  pointer-events: none;
+  cursor: default;
+}
+
+.tooltip text {
+  font-size: 12px;
 }
 
 .dull {
