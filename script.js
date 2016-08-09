@@ -294,6 +294,7 @@ window.addEventListener('load', function() {
   d3.json('data.json', function(err, data) {
     var chartEl = document.querySelector('#chart');
     var rect = chartEl.getBoundingClientRect();
+    document.querySelector('.loading').style.display = 'none';
     drawChart(data, rect.width, rect.height);
   });
 });
