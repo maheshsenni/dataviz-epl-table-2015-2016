@@ -33,6 +33,10 @@ function drawChart(data, width, height) {
     .tickFormat(function(d) { return 'W ' + d })
     .scale(x);
 
+  var yAxis = d3.axisRight()
+    .ticks(10)
+    .scale(y);
+
   var positionLine = d3.line()
     .curve(d3.curveCatmullRom)
     .x(function(d) { return x(d.week); })
@@ -41,14 +45,23 @@ function drawChart(data, width, height) {
   var nestData = d3.nest()
     .key(function(d) { return d.team; })
     .entries(data);
-
+  // show weeks
   chart.append('g')
     .attr('class', 'axis x-axis')
+    .transition()
+    .duration(transitionDuration)
     .attr('transform', 'translate(0,' + ((margin.top/2) - 5) + ')')
     .call(xAxis)
     .selectAll('text')
     .attr('dy', '1.2em')
     .attr('transform', 'rotate(-90)');
+  // show position
+  chart.append('g')
+    .attr('class', 'axis y-axis')
+    .attr('transform', 'translate(' + (x(38) + 20) + ', 0)')
+    .transition()
+    .duration(transitionDuration)
+    .call(yAxis);
 
   function update() {
     chart.selectAll('.team-image')
@@ -143,6 +156,8 @@ function drawChart(data, width, height) {
     .attr('x', function(d) { return x(d.week); })
     .attr('y', function(d) { return y(d.position); })
     .attr('transform', 'translate(-8, -8)')
+    .transition()
+    .duration(transitionDuration)
     .attr('width', 16)
     .attr('height', 16)
     .attr('xlink:href', function(d) {

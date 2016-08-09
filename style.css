@@ -6,11 +6,12 @@
   margin: 0 auto;
 }
 
-.x-axis line, .x-axis path {
+.axis line, .axis path {
   stroke: #fff;
 }
-.x-axis text {
+.axis text {
   text-anchor: middle;
+  fill: grey;
 }
 
 .team-image {
