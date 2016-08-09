@@ -103,9 +103,11 @@ function drawChart(data, width, height) {
         });
       // draw result indicators
       var resultIndicators = chart.selectAll('.result-indicator')
-        .data(data)
+        .data(data, function(d) { return d.week + '-' + d.team; })
         .enter()
-        .filter(function(d) { return d.team === activeTeam; });
+        .filter(function(d) {
+          return d.team === activeTeam;
+        });
       // result colors
       resultIndicators.append('circle')
         .attr('class', function(d) {
