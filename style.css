@@ -18,6 +18,11 @@
   opacity: 0.5;
 }
 
+.team-label {
+  fill: grey;
+  font-size: 13px;
+}
+
 .position-line {
   stroke-width: 1;
   fill: none;

@@ -80,6 +80,12 @@ function drawChart(data, width, height) {
         .duration(transitionDuration)
         .style('opacity', 0)
         .remove();
+
+      chart.selectAll('.team-label')
+        .transition()
+        .duration(transitionDuration)
+        .attr('transform', 'translate(50, ' + (height + 100) + ') rotate(-90)')
+        .remove();
     }
 
     if (activeTeam) {
@@ -144,6 +150,18 @@ function drawChart(data, width, height) {
         .attr('dy', '.25em')
         .attr('class', 'home-away-text')
         .text(function(d) { return d.home ? 'H' : 'A' });
+      // active team label
+      var activeTeamLabel = chart.selectAll('.team-label');
+      if (activeTeamLabel.size() < 1) {
+        activeTeamLabel = chart.append('text')
+          .attr('class', 'team-label')
+          .attr('transform', 'translate(50,0) rotate(-90)');;
+      }
+      activeTeamLabel.style('text-anchor', 'middle')
+        .text(activeTeam)
+        .transition()
+        .duration(transitionDuration)
+        .attr('transform', 'translate(' + [50, (height - margin.top - margin.bottom)/2].join(',') + ') rotate(-90)');
     }
   };
 
