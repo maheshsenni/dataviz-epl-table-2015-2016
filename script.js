@@ -153,7 +153,7 @@ function drawChart(data, width, height) {
         .transition()
         .duration(transitionDuration)
         .style('opacity', function(d) {
-          if (d.team !== activeTeam && weeklyOpponents[d.week] !== d.team) {
+          if (d.team !== activeTeam && weeklyOpponents[d.week - 1] !== d.team) {
             return dullOpacity;
           } else if (d.team === activeTeam) {
             // hide image to show result indicator
