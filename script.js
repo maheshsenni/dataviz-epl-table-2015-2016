@@ -2,6 +2,7 @@ function drawChart(data, width, height) {
   var activeTeam;
   var dullOpacity = 0.1;
   var brightOpacity = 0.5;
+  var transitionDuration = 1000;
 
   var margin = {
     top: 50,
@@ -37,9 +38,6 @@ function drawChart(data, width, height) {
     .x(function(d) { return x(d.week); })
     .y(function(d) { return y(d.position); });
 
-  var trans = d3.transition()
-    .duration(1500);
-
   var nestData = d3.nest()
     .key(function(d) { return d.team; })
     .entries(data);
@@ -54,16 +52,19 @@ function drawChart(data, width, height) {
 
   function update() {
     chart.selectAll('.team-image')
-      .transition(trans)
+      .transition()
+      .duration(transitionDuration)
       .style('opacity', brightOpacity);
     chart.selectAll('.result-indicator')
-      .transition(trans)
+      .transition()
+      .duration(transitionDuration)
       .attr('r', 0)
       .remove();
 
     if (!activeTeam) {
       chart.selectAll('.position-line')
-        .transition(trans)
+        .transition()
+        .duration(transitionDuration)
         .style('opacity', 0)
         .remove();
     }
@@ -73,7 +74,8 @@ function drawChart(data, width, height) {
       var weeklyOpponents = teamNest.values.map(function(d) { return d.opponent; });
       // dull other teams except in first last columns
       chart.selectAll('.team-image')
-        .transition(trans)
+        .transition()
+        .duration(transitionDuration)
         .style('opacity', function(d) {
           if (d.team !== activeTeam && weeklyOpponents[d.week] !== d.team) {
             return dullOpacity;
@@ -91,7 +93,8 @@ function drawChart(data, width, height) {
           .attr('class', 'position-line');
       }
       // draw position line
-      pl.transition(trans)
+      pl.transition()
+        .duration(transitionDuration)
         .attr('stroke', function(d) {
           return colorsAndImages[activeTeam].color;
         })
@@ -116,7 +119,8 @@ function drawChart(data, width, height) {
         })
         .attr('cx', function(d) { return x(d.week); })
         .attr('cy', function(d) { return y(d.position); })
-        .transition(trans)
+        .transition()
+        .duration(transitionDuration)
         .attr('r', 8);
       // home or away
       resultIndicators.append('text')
@@ -167,7 +171,8 @@ function drawChart(data, width, height) {
       }
       update();
     })
-    .transition(trans)
+    .transition()
+    .duration(transitionDuration)
     .attr('x', 20);
   chart.selectAll('.team-final')
     .data(finalTeamPositions)
@@ -182,7 +187,8 @@ function drawChart(data, width, height) {
     .attr('xlink:href', function(d) {
       return colorsAndImages[d.team].icon;
     })
-    .transition(trans)
+    .transition()
+    .duration(transitionDuration)
     .attr('x', width - 20);
 }
 
