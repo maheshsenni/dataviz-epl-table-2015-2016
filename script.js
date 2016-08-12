@@ -6,7 +6,7 @@ function drawChart(data, width, height) {
 
   var margin = {
     top: 50,
-    left: 75,
+    left: 50,
     right: 75,
     bottom: 50
   };
@@ -141,7 +141,7 @@ function drawChart(data, width, height) {
       chart.selectAll('.team-label')
         .transition()
         .duration(transitionDuration)
-        .attr('transform', 'translate(50, ' + (height + 100) + ') rotate(-90)')
+        .attr('transform', 'translate(25, ' + (height + 100) + ') rotate(-90)')
         .remove();
     }
 
@@ -218,13 +218,13 @@ function drawChart(data, width, height) {
       if (activeTeamLabel.size() < 1) {
         activeTeamLabel = chart.append('text')
           .attr('class', 'team-label')
-          .attr('transform', 'translate(50,0) rotate(-90)');;
+          .attr('transform', 'translate(25,0) rotate(-90)');;
       }
       activeTeamLabel.style('text-anchor', 'middle')
         .text(activeTeam)
         .transition()
         .duration(transitionDuration)
-        .attr('transform', 'translate(' + [50, (height - margin.top - margin.bottom)/2].join(',') + ') rotate(-90)');
+        .attr('transform', 'translate(' + [25, (height - margin.top - margin.bottom)/2].join(',') + ') rotate(-90)');
     }
   };
 
@@ -237,41 +237,24 @@ function drawChart(data, width, height) {
     .attr('x', function(d) { return x(d.week); })
     .attr('y', function(d) { return y(d.position); })
     .attr('transform', 'translate(-8, -8)')
-    .transition()
-    .duration(transitionDuration)
-    .attr('width', 16)
-    .attr('height', 16)
     .attr('xlink:href', function(d) {
       return colorsAndImages[d.team].icon;
-    });
-
-  // draw intial and final team positions
-  var intialTeamPositions = nestData.map(function(d) { return d.key; }).sort();
-  var finalTeamPositions = data.filter(function(d) { return d.week === 38 });
-  chart.selectAll('.team-intial')
-    .data(intialTeamPositions)
-    .enter()
-    .append('image')
-    .attr('class', 'team-intial')
-    .attr('x', -10)
-    .attr('y', function(d, i) { return y(i + 1); })
-    .attr('transform', 'translate(-8, -8)')
-    .attr('width', 16)
-    .attr('height', 16)
-    .attr('xlink:href', function(d) {
-      return colorsAndImages[d].icon;
     })
     .on('click', function(d) {
-      if (activeTeam === d) {
+      if (activeTeam === d.team) {
         activeTeam = null;
-      } else if (activeTeam !== d) {
-        activeTeam = d;
+      } else if (activeTeam !== d.team) {
+        activeTeam = d.team;
       }
       update();
     })
     .transition()
     .duration(transitionDuration)
-    .attr('x', 20);
+    .attr('width', 16)
+    .attr('height', 16);
+
+  // draw intial and final team positions
+  var finalTeamPositions = data.filter(function(d) { return d.week === 38 });
   chart.selectAll('.team-final')
     .data(finalTeamPositions)
     .enter()
@@ -284,6 +267,14 @@ function drawChart(data, width, height) {
     .attr('height', 16)
     .attr('xlink:href', function(d) {
       return colorsAndImages[d.team].icon;
+    })
+    .on('click', function(d) {
+      if (activeTeam === d.team) {
+        activeTeam = null;
+      } else if (activeTeam !== d.team) {
+        activeTeam = d.team;
+      }
+      update();
     })
     .transition()
     .duration(transitionDuration)
@@ -334,7 +325,7 @@ var colorsAndImages = {
   },
   'Swansea City': {
     color: '#000000',
-    icon: 'icons/Swansea City.ico'
+    icon: 'icons/Swansea City.png'
   },
   'Southampton': {
     color: '#ED1A3B',
